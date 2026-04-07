@@ -297,13 +297,13 @@ LogStatus "MariaDB 11.8 running"
 # ── STEP 3: Install MongoDB Community Edition ────────────────
 NextStep "Installing MongoDB Community Edition"
 sleep 5
-LogStatus "Adding MongoDB 7.0 repo"
-curl -fsSL https://www.mongodb.org/static/pgp/server-7.0.asc \
-  | gpg --dearmor -o /usr/share/keyrings/mongodb-server-7.0.gpg
+LogStatus "Adding MongoDB 8.0 repo"
+curl -fsSL https://www.mongodb.org/static/pgp/server-8.0.asc \
+  | gpg --dearmor -o /usr/share/keyrings/mongodb-server-8.0.gpg
 
-echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] \
-https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/7.0 multiverse" \
-  | tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-8.0.gpg ] \
+https://repo.mongodb.org/apt/ubuntu noble/mongodb-org/8.0 multiverse" \
+  | tee /etc/apt/sources.list.d/mongodb-org-8.0.list
 
 apt-get update -y
 apt-get install -y mongodb-org
