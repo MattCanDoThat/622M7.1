@@ -874,14 +874,19 @@ LogStatus "Running initial sync.sh to populate MongoDB"
 bash /home/mbennett/sync.sh
 LogStatus "Initial MongoDB load complete"
 
-LogStatus "Scheduling sync.sh via cron (every 5 minutes, run as root)"
+LogStatus "Scheduling sync.sh via cron (every minute, run as root)"
 # Write cron entry to /etc/cron.d so it survives reboots and runs as root
 cat > /etc/cron.d/furniture-sync << 'CRONEOF'
-# ISTM 622 M7 — sync MariaDB exports into MongoDB every 5 minutes
-*/5 * * * * root bash /home/mbennett/sync.sh >> /var/log/sync.log 2>&1
+
+#sync MariaDB exports into MongoDB every minute
+
+
+* * * * * root bash /home/mbennett/sync.sh >> /var/log/sync.log 2>&1
+
+
 CRONEOF
 chmod 644 /etc/cron.d/furniture-sync
-LogStatus "Cron job scheduled (every 5 minutes)"
+LogStatus "Cron job scheduled (every minute)"
 
 echo ""
 echo "===================================================================="
