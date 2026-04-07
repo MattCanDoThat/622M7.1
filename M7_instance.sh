@@ -629,26 +629,39 @@ StateProductRev AS (
     JOIN Orderline ol ON ol.order_id   = o.id
     JOIN Product   p  ON p.id          = ol.product_id
     GROUP BY ct.state, p.id, p.name
+),
+
+TopStateProducts AS (
+    SELECT *
+    FROM (
+        SELECT *,
+               ROW_NUMBER() OVER (
+                   PARTITION BY state
+                   ORDER BY product_revenue DESC
+               ) AS rn
+        FROM StateProductRev
+    ) ranked
+    WHERE rn <= 10
 )
 
 SELECT JSON_OBJECT(
-    'state',         spr.state,
-    'total_revenue', ROUND(SUM(spr.product_revenue), 2),
+    'state',         tsp.state,
+    'total_revenue', ROUND(SUM(tsp.product_revenue), 2),
     'total_orders',  soc.total_orders,
     'top_products',  JSON_ARRAYAGG(
                          JSON_OBJECT(
-                             'ProductID',       spr.product_id,
-                             'productName',     spr.product_name,
-                             'units_sold',      spr.units_sold,
-                             'product_revenue', spr.product_revenue
+                             'ProductID',       tsp.product_id,
+                             'productName',     tsp.product_name,
+                             'units_sold',      tsp.units_sold,
+                             'product_revenue', tsp.product_revenue
                          )
                      )
 )
 INTO OUTFILE '/var/lib/mysql-files/custom1.json'
 LINES TERMINATED BY '\n'
-FROM StateProductRev  spr
-JOIN StateOrderCounts soc ON soc.state = spr.state
-GROUP BY spr.state, soc.total_orders;
+FROM TopStateProducts tsp
+JOIN StateOrderCounts soc ON soc.state = tsp.state
+GROUP BY tsp.state, soc.total_orders;
 
 -- custom2.json
 WITH CustomerOrderTotals AS (
