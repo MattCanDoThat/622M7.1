@@ -232,7 +232,7 @@ while true; do
     printf "\r%-*s\n" "$Cols" " "
     printf "${C_WHITE}Deployed  ${C_RESET}%s\n\n" "$FullBar"
     printf "${C_GREEN}  Deployment complete — MariaDB + MongoDB pipeline ready${C_RESET}\n"
-    printf "  ${C_DIM}Run: mongosh --eval "use FurnitureDB; db.Customers.countDocuments({})"${C_RESET}\n\n"
+    printf "  ${C_DIM}Run: mongosh FurnitureDB --eval 'db.Customers.countDocuments({})'${C_RESET}\n\n"
     exit 0
   fi
 
