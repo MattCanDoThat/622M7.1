@@ -39,9 +39,9 @@ LogStatus() {
   echo "Status: $1" | tee -a "$ProgressLog"
 }
 
-# ── SSH Watcher: smooth ASCII bar + STEP X/7 + label + spinner ─
+# ── SSH Watcher: smooth ASCII bar + STEP X/9 + label + spinner ─
 # Usage after SSH: watchud
-# Auto-exits at STEP 7 with a deployment-complete message.
+# Auto-exits at STEP 9 with a deployment-complete message.
 # -------------------------------------------------------------------
 
 cat > /usr/local/bin/watch-userdata-progress <<'EOF'
