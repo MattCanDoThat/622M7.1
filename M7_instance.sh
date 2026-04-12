@@ -311,7 +311,7 @@ systemctl enable mongod
 systemctl start mongod
 systemctl is-active --quiet mongod || { echo "ERROR: mongod did not start"; exit 1; }
 sleep 10
-LogStatus "MongoDB 7.0 running"
+LogStatus "MongoDB 8.0 running"
 
 # ── STEP 4: Create mbennett user + working directory ────────
 NextStep "Creating Linux user mbennett and working directory"
